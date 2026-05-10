@@ -4,6 +4,7 @@ import { LoginPage } from "./login-page";
 import { HomePage } from "./home-page";
 import { ProductDetailPage } from "./product-detail-page";
 import { CartPage } from "./cart-page";
+import { CheckOutPage } from "./checkout-page";
 
 export class PageManager {
     page: Page;
@@ -12,6 +13,7 @@ export class PageManager {
     homePage: HomePage;
     productDetailPage: ProductDetailPage;
     cartPage: CartPage;
+    checkOutPage: CheckOutPage;
     
     constructor(page: Page) {
         this.page = page;
@@ -20,6 +22,7 @@ export class PageManager {
         this.homePage = new HomePage(page);
         this.productDetailPage = new ProductDetailPage(page);
         this.cartPage = new CartPage(page);
+        this.checkOutPage = new CheckOutPage(page);
     }
 
 }
