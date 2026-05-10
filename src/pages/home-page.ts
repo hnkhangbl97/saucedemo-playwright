@@ -14,8 +14,13 @@ export class HomePage extends BasePage{
     readonly sortSelection: Locator;
     readonly productNames: Locator;
     readonly productsDesc: Locator;
+
     readonly removeBoltTShirtBtn: Locator;
     readonly addBoltTShirtBtn: Locator;
+
+    readonly addBackpackBtn: Locator;
+    readonly removeBackpackBtn: Locator;
+
     readonly itemCountBadge: Locator;
 
     constructor(page: Page){
@@ -35,6 +40,9 @@ export class HomePage extends BasePage{
         this.removeBoltTShirtBtn = page.getByTestId('remove-sauce-labs-bolt-t-shirt');
         this.addBoltTShirtBtn = page.getByTestId('add-to-cart-sauce-labs-bolt-t-shirt');
         this.itemCountBadge = page.getByTestId('shopping-cart-badge');
+
+        this.addBackpackBtn = page.getByTestId('add-to-cart-sauce-labs-backpack');
+        this.removeBackpackBtn = page.getByTestId('remove-sauce-labs-backpack');
 
 
     }
@@ -97,4 +105,5 @@ export class HomePage extends BasePage{
     async clickToCart(){
         await this.shoppingCart.click();
     }
+
 }
