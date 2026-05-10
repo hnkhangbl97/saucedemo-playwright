@@ -4,6 +4,10 @@ import { BasePage } from "./base-page";
 export class HomePage extends BasePage{
     readonly shoppingCart: Locator;
     readonly burgerMenuBtn: Locator;
+    readonly burgerMenuItems: Locator;
+
+    readonly aboutBtn: Locator;
+    readonly resetAppStateBtn: Locator;
     readonly logOutBtn: Locator;
     readonly sauceLabsBackpackImg: Locator;
     readonly itemPrices: Locator;
@@ -18,6 +22,10 @@ export class HomePage extends BasePage{
         super(page);
         this.shoppingCart = page.locator('#shopping_cart_container');
         this.burgerMenuBtn = page.locator('#react-burger-menu-btn');
+        this.burgerMenuItems = page.locator('nav.bm-item-list a');
+
+        this.aboutBtn = page.getByTestId('about-sidebar-link');
+        this.resetAppStateBtn = page.getByTestId('reset-sidebar-link');
         this.logOutBtn = page.getByRole('link',{name: 'Logout'});
         this.sauceLabsBackpackImg = page.getByTestId('inventory-item-sauce-labs-backpack-img');
         this.itemPrices = page.getByTestId('inventory-item-price');
@@ -76,5 +84,17 @@ export class HomePage extends BasePage{
 
     async clickRemoveBoltTShirtBtn(){
         await this.removeBoltTShirtBtn.click();
+    }
+
+    async clickAboutBtn(){
+        await this.aboutBtn.click();
+    }
+
+    async clickResetAppStateBtn(){
+        await this.resetAppStateBtn.click();
+    }
+
+    async clickToCart(){
+        await this.shoppingCart.click();
     }
 }
