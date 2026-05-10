@@ -96,7 +96,49 @@ test('TC-MP-011: Verify the functionality of remove button', async({standardUser
     
     await expect(standardUser.homePage.removeBoltTShirtBtn).not.toBeVisible();    
     await expect(standardUser.homePage.addBoltTShirtBtn).toBeVisible()    
-
 })
 
+test('TC-MP-012: Verify the functionality of the side bar', async({standardUser})=>{
+
+    const expectedMenuItems = [
+        'All Items',
+        'About',
+        'Logout',
+        'Reset App State',
+    ];
+
+    await expect(standardUser.homePage.burgerMenuItems).toContainText(expectedMenuItems);
+})
+
+test('TC-MP-014: Navigate to Sauce Labs site',async({standardUser}) => {
+    
+    await standardUser.homePage.clickBurgerMenuBtn();
+    await standardUser.homePage.clickAboutBtn();
+
+    expect(standardUser.page.url()).toBe('https://saucelabs.com/');
+    
+})
+
+test('TC-MP-016: Verify the functionality of the Reset App State',async({standardUser}) => {
+    const productName = 'Sauce Labs Bolt T-Shirt';
+
+    await standardUser.homePage.addToCart(productName);
+
+    await expect(standardUser.homePage.removeBoltTShirtBtn).toBeVisible();
+    await expect(standardUser.homePage.itemCountBadge).toContainText('1');
+
+    await standardUser.homePage.clickBurgerMenuBtn();
+    await standardUser.homePage.clickResetAppStateBtn();
+    
+    await expect(standardUser.homePage.itemCountBadge).not.toBeVisible();
+    
+})
+
+test('TC-MP-017: View the cart',async({standardUser}) => {
+
+    await standardUser.homePage.clickToCart();
+
+    await expect(standardUser.cartPage.checkOutBtn).toBeVisible();
+    
+})
 
