@@ -23,7 +23,7 @@ test('TC-CP-002: Verify the functionality of Remove button', async({standardUser
     await expect(standardUser.homePage.addBoltTShirtBtn).toBeVisible()    
 })
 
-test('TC-CP-003: Verify the functionality of Checkout button', async({standardUser})=>{
+test('TC-CP-003: Verify the functionality of Checkout button', async({standardUser,systemLabels})=>{
     const productName = 'Sauce Labs Bolt T-Shirt';
 
     await standardUser.homePage.addToCart(productName);
@@ -32,7 +32,7 @@ test('TC-CP-003: Verify the functionality of Checkout button', async({standardUs
     await standardUser.homePage.clickToCart();
     await standardUser.cartPage.clickCheckOutBtn();
 
-    await expect(standardUser.checkOutPage.checkOutStep1Title).toContainText('Checkout: Your Information');
+    await expect(standardUser.checkOutPage.title).toContainText(systemLabels.checkOut.step1Title);
      
 })
 
