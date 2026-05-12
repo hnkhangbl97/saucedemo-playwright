@@ -4,8 +4,9 @@ export const ERROR_MESSAGES = {
         lockedOut: 'Epic sadface: Sorry, this user has been locked out.',
         requiredUsername: 'Epic sadface: Username is required',
     },
-    checkout: {
+    checkOut: {
         firstNameRequired: 'Error: First Name is required',
-        postalCodeInvalid: 'Error: Postal Code is invalid',
+        lastNameRequired: 'Error: Last Name is required',
+        postalCodeRequired: 'Error: Postal Code is required',
     }
 } as const;
