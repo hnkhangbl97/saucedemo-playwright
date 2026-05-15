@@ -1,0 +1,31 @@
+name: SauceDemo Merge PR Verification
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    types: [ closed ]
+
+jobs:
+  run-picked-tests:
+
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers (Chỉ cài Firefox)
+        run: npx playwright install firefox --with-deps
+
+      - name: Run Login Test on Firefox
+        run: npx playwright test login.spec.ts --project "firefox"
