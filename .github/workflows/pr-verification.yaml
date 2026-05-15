@@ -3,12 +3,11 @@ name: SauceDemo Merge PR Verification
 on:
   pull_request:
     branches: [ main, master ]
-    types: [ closed ]
+    types: [ opened, synchronize ]
 
 jobs:
   run-picked-tests:
 
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +17,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '25'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
