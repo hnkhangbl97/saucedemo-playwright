@@ -1,5 +1,6 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, test} from "@playwright/test";
 import { BasePage } from "./base-page";
+
 
 export class LoginPage extends BasePage {
 
@@ -17,16 +18,21 @@ export class LoginPage extends BasePage {
     }
 
     async enterUserName(value: string){
-        await this.username.fill(value); 
+        await test.step(`Enter userName = ${value}`,async()=> {
+            await this.username.fill(value); 
+        })
     }
     
     async enterPassword(value: string){
-        await this.password.fill(value); 
+        await test.step(`Enter password`,async() => {
+            await this.password.fill(value); 
+        })
     }
 
     async clickLoginBtn(){
-        await this.loginBtn.click();
+        await test.step(`Click Login button`, async() => {
+            await this.loginBtn.click();
+        })
     }
-
 
 } 
