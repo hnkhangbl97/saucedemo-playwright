@@ -1,0 +1,47 @@
+name: SauceDemo Daily Run
+
+on: 
+    schedule:
+        - cron: '0 0 * * *'
+
+    workflow_dispatch: 
+
+jobs:
+    daily-run:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout source code
+            uses: actions/checkout@v4
+
+          - name: Setup Node.js environment
+            uses: actions/setup-node@v4
+            with:
+              node-version: '22'
+              cache: 'npm'
+            
+          - name: Install dependencies
+            run: npm ci
+
+          - name: Install Playwright Browsers
+            run: npx playwright install firefox --with-deps
+
+          - name: Run Login Test on Firefox
+            run: npx playwright test login.spec.ts --project "firefox"
+
+            # Fetches previous history from gh-pages, merges with new results, and generates the report
+          - name: Generate Allure Report with History
+            if: always() # Ensures the report is built even if the test fails
+            uses: simple-elf/allure-report-action@master
+            with:
+                allure_results: allure-results
+                allure_history: allure-history
+                keep_reports: 10 # Limits execution history trend to the last 10 runs
+
+            # Deploys the generated report folder to the gh-pages branch
+          - name: Deploy report to GitHub Pages
+            if: always()
+            uses: peaceiris/actions-gh-pages@v4
+            with:
+                github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically managed by GitHub
+                publish_dir: allure-history
+                publish_branch: gh-pages
