@@ -28,6 +28,14 @@ jobs:
           - name: Run Login Test on Firefox
             run: npx playwright test login.spec.ts --project "firefox"
 
+          - name: Get Allure history
+            uses: actions/checkout@v4
+            if: always()
+            continue-on-error: true
+            with:
+                ref: gh-pages
+                path: gh-pages
+
             # Fetches previous history from gh-pages, merges with new results, and generates the report
           - name: Generate Allure Report with History
             if: always() # Ensures the report is built even if the test fails
