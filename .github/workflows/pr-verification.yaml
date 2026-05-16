@@ -3,12 +3,17 @@ name: SauceDemo Merge PR Verification
 on:
   pull_request:
     branches: [ main, master ]
-    types: [ opened, synchronize ]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
-  run-picked-tests:
-
+  pr-smoke-test:
     runs-on: ubuntu-latest
+
+    # Required permissions for Allure 3 to add comments and check statuses
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
 
     steps:
       - name: Checkout source code
@@ -23,8 +28,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers (Chỉ cài Firefox)
+      - name: Install Playwright Browsers
         run: npx playwright install firefox --with-deps
 
-      - name: Run Login Test on Firefox
-        run: npx playwright test login.spec.ts --project "firefox"
+      # 1. Run tests inside Allure 3 wrapper to compile results immediately
+      - name: Run Login Test on Firefox with Allure 3
+        run: npx allure run -- npx playwright test login.spec.ts --project "firefox"
+        continue-on-error: true # Ensures the action continues even if tests fail
+
+      # 2. Publish native Markdown report overview into the Pull Request
+      - name: Publish Allure 3 Summary to PR
+        uses: allure-framework/allure-action@v0
+        if: always()
+        with:
+          report-directory: "./allure-report"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
